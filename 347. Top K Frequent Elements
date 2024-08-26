@@ -1,0 +1,50 @@
+
+import java.util.Map; 
+import java.util.HashMap;
+class Solution {
+    public int[] topKFrequent(int[] nums, int k) {
+        
+        Map<Integer,Integer> res = new HashMap<>();
+
+        for(int i = 0; i<nums.length ; i++)
+        {
+            if(res.containsKey(nums[i]))
+            {
+                int j = res.get(nums[i]);
+                res.put(nums[i],++j);
+            }
+            else res.put(nums[i], 1);
+        }
+
+        //System.out.println(res);
+
+        int[][] result = new int[res.size()][2];
+        int i = 0;
+        for(Map.Entry<Integer,Integer> entry : res.entrySet())
+        {
+            result[i][0] = entry.getKey();
+            result[i++][1] = entry.getValue();
+        }
+        
+        Arrays.sort(result, new Comparator<int[]>() {
+            @Override
+            public int compare(int[] a, int[] b) 
+            {
+                return Integer.compare(b[1], a[1]);
+            }
+        });
+
+        int[] ans = new int[k];
+        for( i = 0; i < k ; i++ )
+        {
+            ans[i] = result[i][0];
+        }
+        return ans;
+    }
+}
+
+
+// create a map and store the occurences of each integer 
+// copy the map into a 2d array in which each array holds the key and value
+// sort the array based on the values using a comparator.
+// then retrive k element from the top of the array and store the keys in result array
